@@ -1,0 +1,94 @@
+/* Quill Content Styles */
+.ql-content {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    line-height: 1.6;
+  }
+  
+  /* Preserve list styles */
+  .ql-content ul {
+    list-style-type: disc !important;
+    margin-left: 1.5em !important;
+    padding-left: 1em !important;
+  }
+  
+  .ql-content ol {
+    list-style-type: decimal !important;
+    margin-left: 1.5em !important;
+    padding-left: 1em !important;
+  }
+  
+  .ql-content li {
+    margin-bottom: 0.5em !important;
+  }
+  
+  /* Headers */
+  .ql-content h1 {
+    font-size: 2em !important;
+    font-weight: bold !important;
+    margin: 0.67em 0 !important;
+  }
+  
+  .ql-content h2 {
+    font-size: 1.5em !important;
+    font-weight: bold !important;
+    margin: 0.83em 0 !important;
+  }
+  
+  .ql-content h3 {
+    font-size: 1.17em !important;
+    font-weight: bold !important;
+    margin: 1em 0 !important;
+  }
+  
+  /* Images */
+  .ql-content img {
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 1em 0 !important;
+  }
+  
+  /* Text alignment */
+  .ql-content .ql-align-center {
+    text-align: center !important;
+  }
+  
+  .ql-content .ql-align-right {
+    text-align: right !important;
+  }
+  
+  .ql-content .ql-align-justify {
+    text-align: justify !important;
+  }
+  
+  /* Other formatting */
+  .ql-content strong {
+    font-weight: bold !important;
+  }
+  
+  .ql-content em {
+    font-style: italic !important;
+  }
+  
+  .ql-content u {
+    text-decoration: underline !important;
+  }
+  
+  .ql-content s {
+    text-decoration: line-through !important;
+  }
+  
+  .ql-content blockquote {
+    border-left: 4px solid #ccc !important;
+    margin: 1em 0 !important;
+    padding-left: 1em !important;
+  }
+  
+  .ql-content pre {
+    background-color: #f4f4f4 !important;
+    border-radius: 3px !important;
+    padding: 1em !important;
+    margin: 1em 0 !important;
+    white-space: pre-wrap !important;
+  }

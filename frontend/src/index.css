@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.theme-blue {
+  --primary-color: #2563eb;
+}
+
+.theme-pink {
+  --primary-color: #ec4899;
+}
+
+.theme-red {
+  --primary-color: #ef4444;
+}
+
+.theme-blue button.bg-blue-600 {
+  background-color: var(--primary-color);
+}
+
+.theme-pink button.bg-blue-600 {
+  background-color: var(--primary-color);
+}
+
+.theme-red button.bg-blue-600 {
+  background-color: var(--primary-color);
+}

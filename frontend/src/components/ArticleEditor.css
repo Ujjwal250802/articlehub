@@ -1,0 +1,66 @@
+.ql-editor img {
+  max-width: 100%;
+  height: auto;
+  position: relative;
+  margin: 5px;
+}
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+  margin: 10px;
+}
+
+.resizer {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #0066ff;
+  border: 1px solid white;
+  border-radius: 50%;
+}
+
+.resizer.nw {
+  top: -4px;
+  left: -4px;
+  cursor: nw-resize;
+}
+
+.resizer.ne {
+  top: -4px;
+  right: -4px;
+  cursor: ne-resize;
+}
+
+.resizer.sw {
+  bottom: -4px;
+  left: -4px;
+  cursor: sw-resize;
+}
+
+.resizer.se {
+  bottom: -4px;
+  right: -4px;
+  cursor: se-resize;
+}
+
+.image-wrapper.resizing {
+  user-select: none;
+}
+
+.image-wrapper.dragging {
+  opacity: 0.7;
+  cursor: move;
+}
+
+/* Ensure the editor can handle dragged elements */
+.ql-editor {
+  position: relative;
+  min-height: 200px;
+  padding: 20px;
+}
+
+.ql-editor p {
+  margin: 0;
+  position: relative;
+}
