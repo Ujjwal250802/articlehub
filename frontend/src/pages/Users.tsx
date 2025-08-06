@@ -27,7 +27,9 @@ const Users = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/appuser/getAllAppuser');
+      const response = await axios.get('http://localhost:8080/appuser/getAllAppuser', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
       setUsers(response.data);
       setFilteredUsers(response.data);
     } catch (error) {
@@ -39,12 +41,16 @@ const Users = () => {
     try {
       if (editingUser) {
         await axios.post('http://localhost:8080/appuser/updateUser', {
-          id: editingUser.id,
+          id: editingUser._id,
           ...newUser
+        }, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         toast.success('User updated successfully');
       } else {
-        await axios.post('http://localhost:8080/appuser/addnewAppuser', newUser);
+        await axios.post('http://localhost:8080/appuser/addnewAppuser', newUser, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
         toast.success('User added successfully');
       }
       setShowAddModal(false);
@@ -61,21 +67,27 @@ const Users = () => {
       await axios.post('http://localhost:8080/appuser/updateUserStatus', {
         id,
         status: currentStatus === 'true' ? 'false' : 'true'
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       toast.success('Status updated successfully');
       fetchUsers();
     } catch (error) {
+      console.error('Status update error:', error);
       toast.error('Failed to update status');
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/appuser/deleteUser/${id}`);
+      await axios.delete(`http://localhost:8080/appuser/deleteUser/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
       toast.success('User deleted successfully');
       setConfirmDeleteId(null);
       fetchUsers();
     } catch (error) {
+      console.error('Delete error:', error);
       toast.error('Failed to delete user');
       setConfirmDeleteId(null);
     }
@@ -116,7 +128,7 @@ const Users = () => {
             </thead>
             <tbody className="divide-y divide-gray-200">
               {filteredUsers.map((user) => (
-                <tr key={user.id}>
+                <tr key={user._id}>
                   <td className="px-6 py-4 text-sm text-gray-900">{user.name}</td>
                   <td className="px-6 py-4 text-sm text-gray-900">{user.email}</td>
                   <td className="px-6 py-4">
@@ -142,7 +154,7 @@ const Users = () => {
                       <Edit className="w-5 h-5" />
                     </button>
                     <button
-                      onClick={() => handleStatusChange(user.id, user.status)}
+                      onClick={() => handleStatusChange(user._id, user.status)}
                       className="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                       style={{ backgroundColor: user.status === 'true' ? '#4F46E5' : '#E5E7EB' }}
                     >
@@ -153,7 +165,7 @@ const Users = () => {
                       />
                     </button>
                     <button
-                      onClick={() => setConfirmDeleteId(user.id)}
+                      onClick={() => setConfirmDeleteId(user._id)}
                       className="text-red-600 hover:text-red-800"
                     >
                       <Trash2 className="w-5 h-5" />

@@ -24,7 +24,9 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/category/getAllCategory');
+      const response = await axios.get('http://localhost:8080/category/getAllCategory', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
       setCategories(response.data);
       setFilteredCategories(response.data);
     } catch (error) {
@@ -36,13 +38,17 @@ const Categories = () => {
     try {
       if (editingCategory) {
         await axios.post('http://localhost:8080/category/updateCategory', {
-          id: editingCategory.id,
+          id: editingCategory._id,
           name: newCategory
+        }, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         toast.success('Category updated successfully');
       } else {
         await axios.post('http://localhost:8080/category/addNewCategory', {
           name: newCategory
+        }, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         toast.success('Category added successfully');
       }
@@ -57,10 +63,13 @@ const Categories = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.get(`http://localhost:8080/category/deleteCategory/${id}`);
+      await axios.get(`http://localhost:8080/category/deleteCategory/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
       toast.success('Category deleted successfully');
       fetchCategories();
     } catch (error) {
+      console.error('Delete error:', error);
       toast.error('Failed to delete category');
     }
   };
@@ -110,7 +119,7 @@ const Categories = () => {
                   <Edit className="w-5 h-5" />
                 </button>
                 <button
-                  onClick={() => handleDelete(category.id)}
+                  onClick={() => handleDelete(category._id)}
                   className="text-red-600 hover:text-red-800"
                 >
                   <Trash2 className="w-5 h-5" />

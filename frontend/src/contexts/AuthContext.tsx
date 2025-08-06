@@ -14,6 +14,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!token);
 
+  // Set up axios defaults on initialization
+  React.useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+  }, [token]);
+
   const login = async (email: string, password: string) => {
     try {
       const response = await axios.post('http://localhost:8080/appuser/login', {

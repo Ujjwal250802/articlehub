@@ -28,7 +28,9 @@ const Articles = () => {
 
   const fetchArticles = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/article/getAllarticle');
+      const response = await axios.get('http://localhost:8080/article/getAllarticle', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
       setArticles(response.data);
       setFilteredArticles(response.data);
     } catch (error) {
@@ -38,10 +40,13 @@ const Articles = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.get(`http://localhost:8080/article/deleteArticle/${id}`);
+      await axios.get(`http://localhost:8080/article/deleteArticle/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
       toast.success('Article deleted successfully');
       fetchArticles();
     } catch (error) {
+      console.error('Delete error:', error);
       toast.error('Failed to delete article');
     }
   };

@@ -24,7 +24,9 @@ const Branch = () => {
 
   const fetchBranches = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/branch/getAllBranch');
+      const response = await axios.get('http://localhost:8080/branch/getAllBranch', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
       setBranches(response.data);
       setFilteredBranches(response.data);
     } catch (error) {
@@ -36,13 +38,17 @@ const Branch = () => {
     try {
       if (editingBranch) {
         await axios.post('http://localhost:8080/branch/updateBranch', {
-          id: editingBranch.id,
+          id: editingBranch._id,
           name: newBranch
+        }, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         toast.success('Branch updated successfully');
       } else {
         await axios.post('http://localhost:8080/branch/addNewBranch', {
           name: newBranch
+        }, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         toast.success('Branch added successfully');
       }
@@ -57,10 +63,13 @@ const Branch = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.get(`http://localhost:8080/branch/deleteBranch/${id}`);
+      await axios.get(`http://localhost:8080/branch/deleteBranch/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
       toast.success('Branch deleted successfully');
       fetchBranches();
     } catch (error) {
+      console.error('Delete error:', error);
       toast.error('Failed to delete branch');
     }
   };
@@ -110,7 +119,7 @@ const Branch = () => {
                   <Edit className="w-5 h-5" />
                 </button>
                 <button
-                  onClick={() => handleDelete(branch.id)}
+                  onClick={() => handleDelete(branch._id)}
                   className="text-red-600 hover:text-red-800"
                 >
                   <Trash2 className="w-5 h-5" />

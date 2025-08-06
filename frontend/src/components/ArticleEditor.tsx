@@ -30,7 +30,9 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/category/getAllCategory');
+      const response = await axios.get('http://localhost:8080/category/getAllCategory', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
       setCategories(response.data);
     } catch (error) {
       toast.error('Failed to fetch categories');
@@ -39,7 +41,9 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
 
   const fetchBranches = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/branch/getAllBranch');
+      const response = await axios.get('http://localhost:8080/branch/getAllBranch', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
       setBranches(response.data);
     } catch (error) {
       toast.error('Failed to fetch branches');
@@ -56,8 +60,8 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
       const data = {
         title,
         content,
-        categoryID: parseInt(categoryID),
-        branchID: parseInt(branchID),
+        categoryID,
+        branchID,
         status
       };
 
@@ -65,10 +69,14 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
         await axios.post('http://localhost:8080/article/updateArticle', {
           ...data,
           id: article.id
+        }, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         toast.success('Article updated successfully');
       } else {
-        await axios.post('http://localhost:8080/article/addNewArticle', data);
+        await axios.post('http://localhost:8080/article/addNewArticle', data, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
         toast.success('Article added successfully');
       }
       onSave();
@@ -118,7 +126,8 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
             formData,
             {
               headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
               }
             }
           );
@@ -161,7 +170,7 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
               >
                 <option value="">Select Category</option>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
+                  <option key={category._id} value={category._id}>
                     {category.name}
                   </option>
                 ))}
@@ -177,7 +186,7 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
               >
                 <option value="">Select Branch</option>
                 {branches.map((branch) => (
-                  <option key={branch.id} value={branch.id}>
+                  <option key={branch._id} value={branch._id}>
                     {branch.name}
                   </option>
                 ))}
