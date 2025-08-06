@@ -1,33 +1,28 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
-import Draggable from 'react-draggable';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const AIGenerator = ({ onClose, onInsertText }) => {
   const [prompt, setPrompt] = useState('');
   const [generatedText, setGeneratedText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Initialize Gemini AI
+  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
   const generateText = async () => {
     if (!prompt.trim()) return;
     
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:11434/api/generate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'Quicklify',
-          prompt: prompt,
-          stream: false
-        })
-      });
-      
-      const data = await response.json();
-      setGeneratedText(data.response);
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      setGeneratedText(text);
     } catch (error) {
       console.error('Error generating text:', error);
+      setGeneratedText('Error generating text. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -41,11 +36,10 @@ const AIGenerator = ({ onClose, onInsertText }) => {
   };
 
   return (
-    
       <div className="fixed inset-0 bg-white bg-opacity-5 flex items-center justify-center z-[60]">
         <div className="bg-white rounded-lg p-6 w-[90%] max-w-4xl">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">Use Quicklify 😎</h2>
+            <h2 className="text-xl font-bold">AI Content Generator 🤖</h2>
             <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
               <X className="w-6 h-6" />
             </button>

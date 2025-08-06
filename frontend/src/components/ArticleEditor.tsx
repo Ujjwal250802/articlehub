@@ -102,11 +102,48 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
         ['clean']
       ],
       handlers: {
-        image: imageHandler
+        image: imageHandler,
+        link: linkHandler
       }
     }
   }), []);
 
+  // Link handler
+  function linkHandler() {
+    const url = prompt('Enter the URL:');
+    if (url) {
+      const quill = document.querySelector('.ql-editor');
+      if (quill) {
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          const selectedText = range.toString();
+          
+          if (selectedText) {
+            // If text is selected, make it a link
+            const link = document.createElement('a');
+            link.href = url;
+            link.textContent = selectedText;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            range.deleteContents();
+            range.insertNode(link);
+          } else {
+            // If no text selected, insert the URL as both text and link
+            const link = document.createElement('a');
+            link.href = url;
+            link.textContent = url;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            range.insertNode(link);
+          }
+          
+          // Clear selection
+          selection.removeAllRanges();
+        }
+      }
+    }
+  }
   // Image upload handler
   async function imageHandler() {
     const input = document.createElement('input');
