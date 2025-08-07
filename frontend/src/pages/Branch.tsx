@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Edit, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../config/api';
 
 const Branch = () => {
   const [branches, setBranches] = useState([]);
@@ -24,7 +25,7 @@ const Branch = () => {
 
   const fetchBranches = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/branch/getAllBranch', {
+      const response = await axios.get(`${API_BASE_URL}/branch/getAllBranch`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setBranches(response.data);
@@ -37,7 +38,7 @@ const Branch = () => {
   const handleSubmit = async () => {
     try {
       if (editingBranch) {
-        await axios.post('http://localhost:8080/branch/updateBranch', {
+        await axios.post(`${API_BASE_URL}/branch/updateBranch`, {
           id: editingBranch._id,
           name: newBranch
         }, {
@@ -45,7 +46,7 @@ const Branch = () => {
         });
         toast.success('Branch updated successfully');
       } else {
-        await axios.post('http://localhost:8080/branch/addNewBranch', {
+        await axios.post(`${API_BASE_URL}/branch/addNewBranch`, {
           name: newBranch
         }, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
@@ -63,7 +64,7 @@ const Branch = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.get(`http://localhost:8080/branch/deleteBranch/${id}`, {
+      await axios.get(`${API_BASE_URL}/branch/deleteBranch/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       toast.success('Branch deleted successfully');

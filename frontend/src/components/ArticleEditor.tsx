@@ -5,6 +5,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Wand2 } from 'lucide-react';
 import AIGenerator from './AIGenerator';
+import { API_BASE_URL } from '../config/api';
 
 const ArticleEditor = ({ article, onClose, onSave }) => {
   const [title, setTitle] = useState('');
@@ -30,7 +31,7 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/category/getAllCategory', {
+      const response = await axios.get(`${API_BASE_URL}/category/getAllCategory`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setCategories(response.data);
@@ -41,7 +42,7 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
 
   const fetchBranches = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/branch/getAllBranch', {
+      const response = await axios.get(`${API_BASE_URL}/branch/getAllBranch`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setBranches(response.data);
@@ -66,7 +67,7 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
       };
 
       if (article) {
-        await axios.post('http://localhost:8080/article/updateArticle', {
+        await axios.post(`${API_BASE_URL}/article/updateArticle`, {
           ...data,
           id: article.id
         }, {
@@ -74,7 +75,7 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
         });
         toast.success('Article updated successfully');
       } else {
-        await axios.post('http://localhost:8080/article/addNewArticle', data, {
+        await axios.post(`${API_BASE_URL}/article/addNewArticle`, data, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         toast.success('Article added successfully');
@@ -159,7 +160,7 @@ const ArticleEditor = ({ article, onClose, onSave }) => {
           formData.append('image', file);
 
           const response = await axios.post(
-            'http://localhost:8080/article/upload/editor-image',
+            `${API_BASE_URL}/article/upload/editor-image`,
             formData,
             {
               headers: {

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Eye, Edit, Trash2, X } from 'lucide-react';
 import ArticleEditor from '../components/ArticleEditor';
 import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../config/api';
 
 const Articles = () => {
   const [articles, setArticles] = useState([]);
@@ -28,7 +29,7 @@ const Articles = () => {
 
   const fetchArticles = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/article/getAllarticle', {
+      const response = await axios.get(`${API_BASE_URL}/article/getAllarticle`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setArticles(response.data);
@@ -40,7 +41,7 @@ const Articles = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.get(`http://localhost:8080/article/deleteArticle/${id}`, {
+      await axios.get(`${API_BASE_URL}/article/deleteArticle/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       toast.success('Article deleted successfully');

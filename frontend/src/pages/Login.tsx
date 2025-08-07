@@ -4,6 +4,7 @@ import { Lock, User, Mail, KeyRound } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -25,7 +26,7 @@ const Login = () => {
       }
     } else {
       try {
-        const response = await axios.post('http://localhost:8080/appuser/signup', {
+        const response = await axios.post(`${API_BASE_URL}/appuser/signup`, {
           name,
           email,
           password

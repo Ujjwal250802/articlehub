@@ -36,7 +36,11 @@ router.post('/upload/editor-image', auth.autheticateToken, upload.single('image'
   if (!req.file) {
     return res.status(400).json({ message: 'No file uploaded' });
   }
-  const imageUrl = `http://localhost:8080/article/uploads/${req.file.filename}`;
+  // Use environment variable for production URL
+  const baseUrl = process.env.NODE_ENV === 'production' 
+    ? process.env.RENDER_EXTERNAL_URL || 'https://your-backend-app.onrender.com'
+    : 'http://localhost:8080';
+  const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
   return res.status(200).json({ url: imageUrl });
 });
 

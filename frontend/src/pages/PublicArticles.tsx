@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import html2pdf from 'html2pdf.js';
 import { Instagram, Linkedin, Facebook } from 'lucide-react';
 import './PublicArticles.css';
+import { API_BASE_URL } from '../config/api';
 
 const PublicArticles = () => {
   const [articles, setArticles] = useState([]);
@@ -44,6 +45,7 @@ const PublicArticles = () => {
       }
 
       const response = await axios.get('http://localhost:8080/article/getAllPublishedArticle', {
+      const response = await axios.get(`${API_BASE_URL}/article/getAllPublishedArticle`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

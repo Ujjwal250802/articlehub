@@ -4,6 +4,7 @@ import { Mail, KeyRound, BookOpen, User, MessageCircle } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { ChatWidget } from '../components/ChatWidget';
+import { API_BASE_URL } from '../config/api';
 
 const StudentLogin = () => {
   const [email, setEmail] = useState('');
@@ -27,7 +28,7 @@ const StudentLogin = () => {
 
     try {
       if (isLogin) {
-        const response = await axios.post('http://localhost:8080/student/login', {
+        const response = await axios.post(`${API_BASE_URL}/student/login`, {
           email,
           password,
         });
@@ -37,7 +38,7 @@ const StudentLogin = () => {
         toast.success('Login successful!');
         navigate('/student-articles');
       } else {
-        await axios.post('http://localhost:8080/student/signup', {
+        await axios.post(`${API_BASE_URL}/student/signup`, {
           email,
           password,
           branch,

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Edit, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../config/api';
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -24,7 +25,7 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/category/getAllCategory', {
+      const response = await axios.get(`${API_BASE_URL}/category/getAllCategory`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setCategories(response.data);
@@ -37,7 +38,7 @@ const Categories = () => {
   const handleSubmit = async () => {
     try {
       if (editingCategory) {
-        await axios.post('http://localhost:8080/category/updateCategory', {
+        await axios.post(`${API_BASE_URL}/category/updateCategory`, {
           id: editingCategory._id,
           name: newCategory
         }, {
@@ -45,7 +46,7 @@ const Categories = () => {
         });
         toast.success('Category updated successfully');
       } else {
-        await axios.post('http://localhost:8080/category/addNewCategory', {
+        await axios.post(`${API_BASE_URL}/category/addNewCategory`, {
           name: newCategory
         }, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
@@ -63,7 +64,7 @@ const Categories = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.get(`http://localhost:8080/category/deleteCategory/${id}`, {
+      await axios.get(`${API_BASE_URL}/category/deleteCategory/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       toast.success('Category deleted successfully');

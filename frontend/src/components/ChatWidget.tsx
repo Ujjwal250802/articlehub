@@ -4,6 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { format } from 'date-fns';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE_URL } from '../config/api';
 
 interface Message {
   id: number;
@@ -36,7 +37,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({ isAdmin = false }) => {
   const fetchUsers = async () => {
     if (isAdmin && isAuthenticated) {
       try {
-        const response = await axios.get('http://localhost:8080/chat/users', {
+        const response = await axios.get(`${API_BASE_URL}/chat/users`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUsers(response.data);
@@ -48,7 +49,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({ isAdmin = false }) => {
 
   const fetchUserMessages = async (username: string) => {
     try {
-      const response = await axios.get(`http://localhost:8080/chat/userMessages/${username}`);
+      const response = await axios.get(`${API_BASE_URL}/chat/userMessages/${username}`);
       setMessages(response.data.sort((a: Message, b: Message) => 
         new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
       ));
@@ -85,7 +86,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({ isAdmin = false }) => {
     if (!newMessage.trim() || (!isAdmin && !userName.trim()) || (isAdmin && !selectedUser)) return;
 
     try {
-      await axios.post('http://localhost:8080/chat/send', {
+      await axios.post(`${API_BASE_URL}/chat/send`, {
         userId: isAdmin ? 'admin' : 'guest',
         userName: isAdmin ? 'Admin' : userName,
         message: newMessage,

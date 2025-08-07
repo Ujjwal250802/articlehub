@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Edit, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../config/api';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -27,7 +28,7 @@ const Users = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/appuser/getAllAppuser', {
+      const response = await axios.get(`${API_BASE_URL}/appuser/getAllAppuser`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setUsers(response.data);
@@ -40,7 +41,7 @@ const Users = () => {
   const handleSubmit = async () => {
     try {
       if (editingUser) {
-        await axios.post('http://localhost:8080/appuser/updateUser', {
+        await axios.post(`${API_BASE_URL}/appuser/updateUser`, {
           id: editingUser._id,
           ...newUser
         }, {
@@ -48,7 +49,7 @@ const Users = () => {
         });
         toast.success('User updated successfully');
       } else {
-        await axios.post('http://localhost:8080/appuser/addnewAppuser', newUser, {
+        await axios.post(`${API_BASE_URL}/appuser/addnewAppuser`, newUser, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         toast.success('User added successfully');
@@ -64,7 +65,7 @@ const Users = () => {
 
   const handleStatusChange = async (id, currentStatus) => {
     try {
-      await axios.post('http://localhost:8080/appuser/updateUserStatus', {
+      await axios.post(`${API_BASE_URL}/appuser/updateUserStatus`, {
         id,
         status: currentStatus === 'true' ? 'false' : 'true'
       }, {
@@ -80,7 +81,7 @@ const Users = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/appuser/deleteUser/${id}`, {
+      await axios.delete(`${API_BASE_URL}/appuser/deleteUser/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       toast.success('User deleted successfully');
