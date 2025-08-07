@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { API_BASE_URL } from '../config/api';
 
 const Users = () => {
+const Users = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
