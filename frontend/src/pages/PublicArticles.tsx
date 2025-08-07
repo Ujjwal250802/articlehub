@@ -44,7 +44,6 @@ const PublicArticles = () => {
         return;
       }
 
-      const response = await axios.get('http://localhost:8080/article/getAllPublishedArticle', {
       const response = await axios.get(`${API_BASE_URL}/article/getAllPublishedArticle`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -80,7 +79,7 @@ const PublicArticles = () => {
         max-width: 100%;
         margin: 20px auto;
       }
-      h2, {
+      h2 {
         text-align: center;
       }
       .ql-content {
