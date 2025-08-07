@@ -47,6 +47,7 @@ A full-stack article management system with admin panel and student portal.
    MONGODB_URI=your_mongodb_atlas_connection_string
    ACCESS_TOKEN=your_jwt_secret_key_here
    NODE_ENV=production
+   FRONTEND_URL=https://your-frontend-app.vercel.app
    ```
 
 5. **MongoDB Setup:**

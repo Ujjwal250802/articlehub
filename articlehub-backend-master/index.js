@@ -13,7 +13,21 @@ const path = require('path');
 // Connect to MongoDB
 connectDB();
 
-app.use(cors());
+// CORS configuration
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? [
+        process.env.FRONTEND_URL || 'https://your-frontend-app.vercel.app',
+        'https://vercel.app',
+        /\.vercel\.app$/
+      ]
+    : ['http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:5173'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Serve static files from uploads directory
